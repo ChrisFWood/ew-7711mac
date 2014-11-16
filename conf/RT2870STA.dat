@@ -1,10 +1,10 @@
 #The word of "Default" must not be removed
 Default
-CountryRegion=5
-CountryRegionABand=7
-CountryCode=
+CountryRegion=1
+CountryRegionABand=1
+CountryCode=GB
 ChannelGeography=1
-SSID=11n-AP
+SSID=
 NetworkType=Infra
 WirelessMode=14
 EfuseBufferMode=0
