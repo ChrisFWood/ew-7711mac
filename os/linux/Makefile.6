@@ -1,5 +1,15 @@
 include $(RT28xx_DIR)/os/linux/config.mk
 
+include $(LINUX_SRC)/.config
+
+PRIVATE_SIGNING_KEY = $(LINUX_SRC)/signing_key.priv 
+PUBLIC_SIGNING_KEY = $(LINUX_SRC)/signing_key.x509
+SIGN_FILE = $(LINUX_SRC)/scripts/sign-file
+
+define sign
+	$(SIGN_FILE) $(CONFIG_MODULE_SIG_HASH) $(PRIVATE_SIGNING_KEY) $(PUBLIC_SIGNING_KEY) $1
+endef
+
 obj_wsc :=
 obj_vht :=
 obj_cmm := \
@@ -452,11 +462,15 @@ endif
 
 install:
 	rm -rf $(DAT_PATH)
-	$(shell [ ! -f /etc/Wireless ] && mkdir /etc/Wireless)
-	mkdir $(DAT_PATH)
+	mkdir -p $(DAT_PATH)
 	cp $(RT28xx_DIR)/$(DAT_FILE_NAME) $(DAT_PATH)/.
 	install -d $(LINUX_SRC_MODULE)
 	install -m 644 -c $(addsuffix .ko,$(MOD_NAME)) $(LINUX_SRC_MODULE)
+ifeq ($(CONFIG_MODULE_SIG),y)
+ifeq ($(CONFIG_MODULE_SIG_ALL),y)
+	$(call sign,$(addprefix $(LINUX_SRC_MODULE),$(addsuffix .ko,$(MOD_NAME))))
+endif
+endif
 	/sbin/depmod -a ${shell uname -r}
 
 uninstall:

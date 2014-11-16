@@ -277,8 +277,13 @@ typedef struct file* RTMP_OS_FD;
 
 typedef struct _OS_FS_INFO_
 {
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 12, 6))
+	kuid_t		fsuid;
+	kgid_t		fsgid;
+#else
 	int				fsuid;
 	int				fsgid;
+#endif
 	mm_segment_t	fs;
 } OS_FS_INFO;
 
@@ -882,8 +887,13 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 		
 #define GET_OS_PKT_DATATAIL(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->tail)
+#ifdef NET_SKBUFF_DATA_USES_OFFSET
+#define SET_OS_PKT_DATATAIL(_pkt, _start, _len)	\
+        ((RTPKT_TO_OSPKT(_pkt))->tail) = (PUCHAR)(RTPKT_TO_OSPKT(_pkt)->data-(RTPKT_TO_OSPKT(_pkt)->head)+(_len))
+#else
 #define SET_OS_PKT_DATATAIL(_pkt, _start, _len)	\
 		((RTPKT_TO_OSPKT(_pkt))->tail) = (PUCHAR)((_start) + (_len))
+#endif
 		
 #define GET_OS_PKT_HEAD(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->head)

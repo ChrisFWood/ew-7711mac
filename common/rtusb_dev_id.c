@@ -40,6 +40,7 @@ USB_DEVICE_ID rtusb_dev_id[] = {
 	{USB_DEVICE(0x0E8D,0x7610)}, /* MT7610U */
 	{USB_DEVICE_AND_INTERFACE_INFO(0x0E8D, 0x7630, 0xff, 0x2, 0xff)}, /* MT7630U */
 	{USB_DEVICE_AND_INTERFACE_INFO(0x0E8D, 0x7650, 0xff, 0x2, 0xff)}, /* MT7650U */
+	{USB_DEVICE_AND_INTERFACE_INFO(0x7392, 0xA711, 0xff, 0x2, 0xff)}, /* EDIMAX EW-7711MAC */
 #endif
 	{ }/* Terminating entry */
 };
