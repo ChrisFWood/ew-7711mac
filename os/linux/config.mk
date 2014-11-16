@@ -157,7 +157,7 @@ HAS_GREENAP_SUPPORT=n
 HAS_CFG80211_SUPPORT=n
 
 #Support RFKILL hardware block/unblock LINUX-only function
-HAS_RFKILL_HW_SUPPORT=n
+HAS_RFKILL_HW_SUPPORT=y
 
 
 
